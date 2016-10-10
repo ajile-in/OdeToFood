@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Routing;
 
 namespace OdeToFood
 {
@@ -29,6 +30,8 @@ namespace OdeToFood
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+
             services.AddSingleton(Configuration);
             services.AddSingleton<IGreeter, Greeter>();
         }
@@ -54,16 +57,18 @@ namespace OdeToFood
                 });
             }
 
-            app.UseWelcomePage(new WelcomePageOptions
-            {
-                Path = "/welcome"
-            });
+            app.UseFileServer();
 
-            app.Run(async (context) =>
-            {
-                string msg = greet.GetGreeting(); //Configuration["Greeting"];
-                await context.Response.WriteAsync(msg);
-            });
+            //app.UseMvcWithDefaultRoute();\
+            app.UseMvc(ConfigureRoutes);
+
+            app.Run( context => context.Response.WriteAsync("Not Found!"));
+        }
+
+        private void ConfigureRoutes(IRouteBuilder routeBuilder)
+        {
+            routeBuilder.MapRoute("DefaultRoute", 
+                "{controller=Home}/{action=Index}/{id?}");
         }
     }
 }
