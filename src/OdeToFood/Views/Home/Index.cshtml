@@ -1,7 +1,20 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<OdeToFood.Models.Restaurant>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>My Home</title>
+</head>
+<body>
+    <h1>Welcome</h1>
 
-<h1>Hello from Index View..</h1>
+    <table>
+        @foreach (var restaurant in Model)
+        {
+            <tr>
+                <td>@restaurant.Id</td>
+                <td>@restaurant.Name</td>
+            </tr>
+        }
+    </table>
+</body>
+</html>
+
