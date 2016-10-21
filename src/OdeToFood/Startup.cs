@@ -57,6 +57,7 @@ namespace OdeToFood
             }
 
             app.UseFileServer();
+            app.UseNodeModules(env.ContentRootPath);
 
             //app.UseMvcWithDefaultRoute();\
             app.UseMvc(ConfigureRoutes);
